@@ -19,7 +19,15 @@ This is a Blender addon that generates a in-the-round crochet pattern from a mod
   * Section out the part of the model between every 2 neighboring seams, and store them in an object that uses the first seam as the index (assign sections)
   * Iterating over sections (assign section):
    * Assign the first seam to current_row_edges
+   * Assign the splitting_plane that touches the first point of this sections axis to prev_row_edges
    * While current_row_edges has content:
-    * Calculate a new model (assign possible_stitch_spaces) that uses half cylinders with each edge as a center line, as well as half spheres centered on each vertex, with none of these half-shapes being in between the prev_row_edges (defaulted to the splitting_plane that touches the first point of this sections axis) and current_row_edges
-    * Push prev_row_edges onto an array (assigned all_row_edges)
-    * Calculate the intersection of possible_stitch_spaces and section (assign new_row_edges, and prev_row_edges, current_row_edges = current_row_edges, new_row_edges)
+    * Calculate a new model
+     * Assign possible_stitch_spaces
+     * It uses the union of
+      * Half cylinders with each edge as a center line
+      * Half spheres centered on each vertex
+      * None of these half-shapes being in between the prev_row_edges and current_row_edges
+   * Push prev_row_edges onto all_row_edges
+   * Calculate the intersection of possible_stitch_spaces and section then:
+      * Assign to new_row_edges
+      * Assign prev_row_edges, current_row_edges = current_row_edges, new_row_edges
